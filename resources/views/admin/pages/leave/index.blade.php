@@ -55,31 +55,38 @@
         <div class="widget-content widget-content-area">
             <a href="{{ route('leave.create') }}" class="btn btn-success m-2">Apply Leave</a>
             <table id="style-2" class="table style-2 dt-table-hover">
-                <thead>
-                    <tr>
-                        
-                        <th>ID</th>
-                        <th>Employee Name</th>
-                        <th>Leave Type</th>
-                        <th>Age</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Leave Days</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Employee Name</th>
+            <th>Leave Type</th>
+            <th>Age</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Leave Days</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
                     @foreach($leaves as $leave)
                     <tr>
                     <td>{{ $leave->id }}</td>
+
+                    <td>
+                <span>
+                    @if($leave->employee->image)
+                    <img src="{{ asset($leave->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @else
+                    <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @endif
+                </span>
+                {{ $leave->employee->first_name }} {{ $leave->employee->last_name }}
+            </td>
                      
-                        <td>
-            <img src="{{ $leave->employee->image }}" alt="{{ $leave->employee->first_name }} {{ $leave->employee->last_name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-            {{ $leave->employee->first_name }} {{ $leave->employee->last_name }}
-        </td>
+                    
                         <td>{{ $leave->leave_type }}</td>
                         <td>{{ $leave->age }}</td>
-                        <td>{{ $leave->reason }}</td>
+                        <td>{{ Str::words($leave->reason, 5, '...') }}</td>
                         <td class="text-center">
                             @if($leave->status == 0)
                             <span class="badge badge-warning">Pending</span>
@@ -89,9 +96,15 @@
                             <span class="badge badge-danger">Rejected</span>
                             @endif
                         </td>
-                        <td class="text-center">
-                            {{ $leave->leave_days }}
-                        </td>
+                      <td class="text-center">
+    @if($leave->leave_days === 1 && $leave->date)
+        1
+    @elseif($leave->leave_days > 1)
+        {{ $leave->leave_days }} Days
+    @else
+       1
+    @endif
+</td>
                         <td class="text-center">
                             @if($leave->status == 0)
                             <form action="{{ route('leave.accept', $leave->id) }}" method="POST" style="display:inline;">
@@ -127,7 +140,8 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+</table>
+
         </div>
 
         <!-- Modal Code -->

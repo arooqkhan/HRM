@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Document;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\PayslipUpload;
@@ -24,46 +26,85 @@ class PayslipUploadController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    // Fetch all payslip uploads
-    $payslipUploads = PayslipUpload::all();
-
-    // Initialize an array to hold employee data
-    $employeesData = [];
-    $assignedEmployeeIds = [];
-
-    foreach ($payslipUploads as $payslipUpload) {
-        // Decode the JSON data in the 'pdfs' column
-        $pdfPaths = json_decode($payslipUpload->pdfs, true);
-
-        // Iterate over each PDF path
-        foreach ($pdfPaths as $pdfPath) {
-            // Extract filename from the path (e.g., 'EMP01.pdf')
-            $filename = basename($pdfPath);
-            $employeeId = pathinfo($filename, PATHINFO_FILENAME); // Extract 'EMP01' from 'EMP01.pdf'
-
-            // Fetch employee details based on employee_id
-            $employee = Employee::where('employee_id', $employeeId)->first();
-
-            if ($employee) {
-                $employeesData[] = [
-                    'payslip_upload_id' => $payslipUpload->id,
-                    'first_name' => $employee->first_name,
-                    'last_name' => $employee->last_name,
-                    'pdf' => $pdfPath,
-                ];
-                $assignedEmployeeIds[] = $employee->id;
+    {
+        // Get the logged-in user
+        $loggedInUser = auth()->user();
+    
+        // Log user information for debugging
+        \Log::info('Logged-in User:', [
+            'id' => $loggedInUser->id,
+            'role' => $loggedInUser->role,
+            'employee_id' => $loggedInUser->employee_id, // Log employee ID for clarity
+        ]);
+    
+        // Fetch all payslip uploads
+        $payslipUploads = PayslipUpload::all();
+    
+        // Initialize arrays to hold employee data
+        $employeesData = [];
+        $assignedEmployeeIds = [];
+    
+        foreach ($payslipUploads as $payslipUpload) {
+            // Decode the JSON data in the 'pdfs' column
+            $pdfPaths = json_decode($payslipUpload->pdfs, true);
+    
+            // Iterate over each PDF path
+            foreach ($pdfPaths as $pdfPath) {
+                // Extract filename from the path (e.g., 'EMP01.pdf')
+                $filename = basename($pdfPath);
+                $employeeId = pathinfo($filename, PATHINFO_FILENAME); // Extract 'EMP01' from 'EMP01.pdf'
+    
+                // Fetch employee details based on employee_id
+                $employee = Employee::where('employee_id', $employeeId)->first();
+    
+                if ($employee) {
+                    // Check if the logged-in user is an admin, HR, or Accountant
+                    if (in_array($loggedInUser->role, ['admin', 'HR', 'Accountant'])) {
+                        // Admin, HR, Accountant: show all payslip uploads
+                        $employeesData[] = [
+                            'payslip_upload_id' => $payslipUpload->id,
+                            'first_name' => $employee->first_name,
+                            'last_name' => $employee->last_name,
+                            'pdf' => $pdfPath,
+                        ];
+                    } else {
+                        // Regular employees: show only their own payslip uploads
+                        if ($employee->id == $loggedInUser->employee_id) {
+                            $employeesData[] = [
+                                'payslip_upload_id' => $payslipUpload->id,
+                                'first_name' => $employee->first_name,
+                                'last_name' => $employee->last_name,
+                                'pdf' => $pdfPath,
+                            ];
+                        }
+                    }
+                    $assignedEmployeeIds[] = $employee->id; // Collect assigned employee IDs
+                }
             }
         }
+    
+        // Log the collected assigned employee IDs for debugging
+        \Log::info('Assigned Employee IDs:', $assignedEmployeeIds);
+    
+        // Fetch unassigned employees only for admin, HR, Accountant
+        if (in_array($loggedInUser->role, ['admin', 'HR', 'Accountant'])) {
+            $unassignedEmployees = Employee::whereNotIn('id', $assignedEmployeeIds)->get();
+        } else {
+            // Regular employees: fetch only their own record
+            $unassignedEmployees = Employee::where('id', $loggedInUser->employee_id)->get();
+        }
+    
+        // Check the count of unassigned employees and log it
+        $unassignedCount = $unassignedEmployees->count();
+        \Log::info('Count of Unassigned Employees:', ['count' => $unassignedCount]);
+    
+        // Convert the collection to an array for logging
+        $unassignedEmployeesArray = $unassignedEmployees->toArray();
+        \Log::info('Unassigned Employees:', $unassignedEmployeesArray);
+    
+        // Pass the data to the view
+        return view('admin.pages.payslipupload.index', compact('employeesData', 'unassignedEmployees'));
     }
-
-    // Fetch unassigned employees
-    $unassignedEmployees = Employee::whereNotIn('id', $assignedEmployeeIds)->get();
-
-    // Pass the data to the view
-    return view('admin.pages.payslipupload.index', compact('employeesData', 'unassignedEmployees'));
-}
-
     
     
 

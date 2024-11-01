@@ -30,6 +30,8 @@ class Employee extends Model
         'password',
         'dob',
         'ninumber',
+        'visa',
+        'visadate',
         'address',
         'image',
     ];
@@ -39,6 +41,8 @@ class Employee extends Model
     {
         return $this->hasMany(Leave::class);
     }
+
+ 
 
     public function attendances()
     {
@@ -63,6 +67,16 @@ class Employee extends Model
     public function payslipUploads()
     {
         return $this->hasMany(PayslipUpload::class, 'employee_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
     }
 
 }

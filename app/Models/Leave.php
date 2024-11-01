@@ -20,6 +20,10 @@ class Leave extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+    public function employees()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function getLeaveDaysAttribute()
     {

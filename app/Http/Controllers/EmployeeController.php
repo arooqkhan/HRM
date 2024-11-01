@@ -69,73 +69,75 @@ class EmployeeController extends Controller
      */
 
      
-    public function store(Request $request)
-    { 
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'contact_email' => 'required|email|unique:employees,contact_email',
-            'gender' => 'required|in:male,female,other',
-            'employee_id' => 'required|string|max:255|unique:employees,employee_id',
-            'department' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
-            'employee_status' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-            'salary' => 'required|numeric|min:0',
-            'number' => 'required|string|min:0',
-            'emgr_number' => 'required|string|min:0', 
-            'joining_date' => 'required|date',
-            'work_shift' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'ninumber' => 'required|string|max:15|unique:employees,ninumber',
-            'address' => 'required|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'password' => 'required|string|min:8',
-        ]);
-    
-        // Handle image upload if provided
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $imagePath = 'images/' . $imageName;
-        }
-    
-        // Create the employee record in the employees table
-        $employeeData = array_merge($validatedData, ['image' => $imagePath]);
-        $employeeData = Arr::except($employeeData, ['email']);
-        $employee = Employee::create($employeeData);
-    
-        // Create the user record in the users table
-        $userData = [
-            'employee_id' => $employee->id,
-            'name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role' => $validatedData['role'],
-            'image' => $imagePath,
-        ];
-        $user = User::create($userData);
-
-        $role = Role::where('name', $request->role)->first();
-        $user->assignRole($role);
-
-        // Update the employee record with the user_id
-        $employee->update(['user_id' => $user->id]);
+     public function store(Request $request)
+     { 
+         // Validate the incoming request data
+         $validatedData = $request->validate([
+             'first_name' => 'required|string|max:255',
+             'last_name' => 'required|string|max:255',
+             'email' => 'required|email|unique:users,email',
+             'contact_email' => 'required|email|unique:employees,contact_email',
+             'gender' => 'required|in:male,female,other',
+             'employee_id' => 'required|string|max:255|unique:employees,employee_id',
+             'department' => 'required|string|max:255',
+             'designation' => 'required|string|max:255',
+             'employee_status' => 'required|string|max:255',
+             'role' => 'required|string|max:255',
+             'salary' => 'required|numeric|min:0',
+             'number' => 'required|string|min:0',
+             'emgr_number' => 'required|string|min:0', 
+             'joining_date' => 'required|date',
+             'work_shift' => 'required|string|max:255',
+             'dob' => 'required|date',
+             'ninumber' => 'required|string|max:15|unique:employees,ninumber',
+             'address' => 'required|string|max:500',
+             'visa' => 'nullable',
+             'visadate' => 'nullable',
+             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+             'password' => 'required|string|min:8',
+         ]);
+     
+         // Handle image upload if provided
+         $imagePath = null;
+         if ($request->hasFile('image')) {
+             $image = $request->file('image');
+             $imageName = time() . '_image.' . $image->getClientOriginalExtension();
+             $image->move(public_path('images'), $imageName);
+             $imagePath = 'images/' . $imageName;
+         }
+     
+         // Create the employee record in the employees table
+         $employeeData = array_merge($validatedData, ['image' => $imagePath]);
+         $employeeData = Arr::except($employeeData, ['email']);
+         $employee = Employee::create($employeeData);
+     
+         // Create the user record in the users table
+         $userData = [
+             'employee_id' => $employee->id,
+             'name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
+             'email' => $validatedData['email'],
+             'password' => Hash::make($validatedData['password']),
+             'role' => $validatedData['role'],
+             'image' => $imagePath,
+         ];
+         $user = User::create($userData);
+ 
+         $role = Role::where('name', $request->role)->first();
+         $user->assignRole($role);
+ 
+         // Update the employee record with the user_id
+         $employee->update(['user_id' => $user->id]);
+          
          
+         $orgpassword = $request->password;
         
-        $orgpassword = $request->password;
-       
-        // send email
-        Mail::to($validatedData['contact_email'])->send(new EmployeeRegistered($employee, $validatedData['email'], $orgpassword));
-
-    
-        // Redirect back with a success message
-        return redirect()->route('employee.index')->with('success', 'Employee created successfully.');
-    }
+         // send email
+         Mail::to($validatedData['contact_email'])->send(new EmployeeRegistered($employee, $validatedData['email'], $orgpassword));
+ 
+     
+         // Redirect back with a success message
+         return redirect()->route('employee.index')->with('success', 'Employee created successfully.');
+     }
     
 
     /**
@@ -268,6 +270,8 @@ class EmployeeController extends Controller
         'dob' => 'sometimes|date',
         'address' => 'sometimes|string|max:255',
         'ninumber' => 'sometimes|string|max:15',
+        'visa' => 'nullable',
+        'visadate' => 'nullable',
     ]);
 
     // Handle the profile image upload if provided

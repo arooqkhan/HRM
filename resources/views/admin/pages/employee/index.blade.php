@@ -166,19 +166,21 @@
                                 <li class="list-group-item"><strong>Department:</strong> <span id="modalEmployeeDepartment"></span></li>
                                 <li class="list-group-item"><strong>Designation:</strong> <span id="modalEmployeeDesignation"></span></li>
                                 <li class="list-group-item"><strong>Employee Status:</strong> <span id="modalEmployeeEmployeeStatus"></span></li>
+                                <li class="list-group-item"><strong>Role:</strong> <span id="modalEmployeeRole"></span></li>
+                                <li class="list-group-item"><strong>Salary:</strong> <span id="modalEmployeeSalary"></span></li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-group">
-                                <li class="list-group-item"><strong>Role:</strong> <span id="modalEmployeeRole"></span></li>
-                                <li class="list-group-item"><strong>Salary:</strong> <span id="modalEmployeeSalary"></span></li>
                                 <li class="list-group-item"><strong>Number:</strong> <span id="modalEmployeeNumber"></span></li>
                                 <li class="list-group-item"><strong>Emergency Number:</strong> <span id="modalEmployeeemgrNumber"></span></li>
                                 <li class="list-group-item"><strong>Joining Date:</strong> <span id="modalEmployeeJoiningDate"></span></li>
                                 <li class="list-group-item"><strong>Work Shift:</strong> <span id="modalEmployeeWorkShift"></span></li>
-                                <li class="list-group-item"><strong>NI Number:</strong> <span id="modalEmployeecnic"></span></li>
+                                <li class="list-group-item"><strong>NI Number:</strong> <span id="modalEmployeeninumber"></span></li>
                                 <li class="list-group-item"><strong>Date Of Birth:</strong> <span id="modalEmployeedob"></span></li>
                                 <li class="list-group-item"><strong>Address:</strong><span id="modalEmployeeaddress"></span></li>
+                                <li class="list-group-item"><strong>Visa Status:</strong><span id="modalEmployeevisastatus"></span></li>
+                                <li class="list-group-item"><strong>Next Right to Check date:</strong><span id="modalEmployeevisadate"></span></li>
                             </ul>
                         </div>  
                     </div>
@@ -242,9 +244,11 @@
         $('#modalEmployeeemgrNumber').text(employee.emgr_number);
         $('#modalEmployeeJoiningDate').text(employee.joining_date);
         $('#modalEmployeeWorkShift').text(employee.work_shift);
-        $('#modalEmployeecnic').text(employee.ninumber);
+        $('#modalEmployeeninumber').text(employee.ninumber);
         $('#modalEmployeedob').text(employee.dob);
         $('#modalEmployeeaddress').text(employee.address);
+        $('#modalEmployeevisastatus').text(employee.visa);
+        $('#modalEmployeevisadate').text(employee.visadate);
 
         if (employee.image) {
             $('#modalEmployeeImage').attr('src', '{{ asset('') }}' + employee.image);

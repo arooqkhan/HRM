@@ -79,9 +79,15 @@
                     
                         <td>{{$attendance->id}}</td>
                         <td>
-                            <img src="{{ $attendance->employee->image }}" alt="{{ $attendance->employee->first_name }} {{ $attendance->employee->last_name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                            {{ $attendance->employee->first_name }} {{ $attendance->employee->last_name }}
-                        </td>
+                <span>
+                    @if($attendance->employee->image)
+                    <img src="{{ asset($attendance->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @else
+                    <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @endif
+                </span>
+                {{ $attendance->employee->first_name }} {{ $attendance->employee->last_name }}
+            </td>
 
                         <td class="text-center">
                             <!--

@@ -188,13 +188,31 @@
                                 @endif
                             </div>
                             <div class="col-sm-6">
-                                <label for="inputCnic">NI Number</label>
-                                <input type="text" class="form-control" id="inputCnic" name="ninumber" placeholder="Enter NI Number" value="{{ old('ninumber', $employee->ninumber) }}">
+                                <label for="inputNinumber">NI Number</label>
+                                <input type="text" class="form-control" id="inputNinumber" name="ninumber" placeholder="Enter NI Number" value="{{ old('cnic', $employee->ninumber) }}">
                                 @if ($errors->has('ninumber'))
                                 <span class="text-danger">{{ $errors->first('ninumber') }}</span>
                                 @endif
                             </div>
                         </div>
+
+
+                        <div class="row mb-4">
+        <div class="col-sm-6">
+            <label for="inputVisa">Visa Status</label>
+            <input type="text" class="form-control" id="inputVisa" name="visa" placeholder="Enter Visa Status" value="{{ old('visa', $employee->visa) }}">
+            @if ($errors->has('visa'))
+            <span class="text-danger">{{ $errors->first('visa') }}</span>
+            @endif
+        </div>
+        <div class="col-sm-6">
+            <label for="inputVisaDate">Next Right To Check Date</label>
+            <input type="date" class="form-control" id="inputVisaDate" name="visadate" value="{{ old('visadate', $employee->visadate) }}">
+            @if ($errors->has('visadate'))
+            <span class="text-danger">{{ $errors->first('visadate') }}</span>
+            @endif
+        </div>
+    </div>
 
                         <div class="row mb-4">
                             <div class="col-sm-12">
@@ -227,10 +245,6 @@
                             </div>
                         </div>
                     </form>
-
-
-
-
 
                 </div>
             </div>

@@ -8,28 +8,23 @@
     </div>
 
     <div class="btn-group mb-4">
+        <!-- 'This Month' Button -->
         <a href="{{ route('attendance.details.monthly', ['employee_id' => $employee->id]) }}" class="btn btn-primary {{ request()->is('attendance/details/'.$employee->id.'/monthly') ? 'active' : '' }}">This Month</a>
 
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Previous Months
-            </button>
-            <ul class="dropdown-menu">
-                @php
-                $currentMonth = \Carbon\Carbon::now()->month;
-                @endphp
-                @for ($i = 1; $i < $currentMonth; $i++)
-                    @php
-                    $monthName = \Carbon\Carbon::now()->subMonths($i)->format('F Y');
-                    @endphp
-                    <li>
-                        <a href="{{ route('attendance.details.previous_month', ['employee_id' => $employee->id, 'monthOffset' => $i]) }}" class="dropdown-item {{ request()->is('attendance/details/'.$employee->id.'/previous-month/'.$i) ? 'active' : '' }}">
-                            {{ $monthName }}
-                        </a>
-                    </li>
-                @endfor
-            </ul>
-        </div>
+        <!-- 'Select Month' Label and Month Select Box with Enhanced Styling -->
+        <label for="month-select" class="ms-3 me-2 align-self-center font-weight-bold">Select Month:</label>
+        <form action="{{ route('attendance.details.monthly', ['employee_id' => $employee->id]) }}" method="GET" class="d-inline">
+            <div class="input-group stylish-select">
+                <select id="month-select" name="month" class="form-select form-select-lg" onchange="this.form.submit()" style="width: 150px;">
+                    @foreach(range(1, 12) as $month)
+                        <option value="{{ $month }}" {{ $month == date('n') ? 'selected' : '' }}>
+                            {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                        </option>
+                    @endforeach
+                </select>
+                <input type="hidden" name="year" value="{{ date('Y') }}">
+            </div>
+        </form>
     </div>
 
     <!-- Display attendance records -->
@@ -47,7 +42,6 @@
         <tbody>
             @php
             $absentDaysCount = 0;
-            $today = \Carbon\Carbon::now()->format('Y-m-d');
             @endphp
 
             @if ($attendances->isEmpty())
@@ -103,4 +97,25 @@
         <h4>Total Absent Days: {{ $absentDaysCount }}</h4>
     </div>
 </div>
+
+
+<style>
+    /* Custom Styling for Month Select Dropdown */
+    .stylish-select .form-select-lg {
+        font-size: 1rem;
+        color: #4a4a4a;
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        padding: 0.5rem 1rem;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.2s ease-in-out;
+    }
+    .stylish-select .form-select-lg:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
+
+
 @endsection

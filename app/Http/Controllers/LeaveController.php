@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Leave;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class LeaveController extends Controller
         $user = auth()->user();
         $currentMonth = now()->month;
         $currentYear = now()->year;
-
+    
         if ($user->role === 'admin' || $user->role === 'HR' || $user->role === 'Accountant') {
             // Admin can see all leaves for the current month
             $leaves = Leave::with('employee')
@@ -47,9 +48,30 @@ class LeaveController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-
+    
+        // Determine if the leave is single or multi-day
+        foreach ($leaves as $leave) {
+            // Check for single-day leave using the 'date' field
+            if ($leave->date) {
+                $leave->leave_days = 1;
+            } 
+            // If it's not a single-day leave, check for multi-day using 'start_date' and 'end_date'
+            elseif ($leave->start_date && $leave->end_date) {
+                // Convert start_date and end_date to Carbon instances
+                $startDate = Carbon::parse($leave->start_date);
+                $endDate = Carbon::parse($leave->end_date);
+                
+                $leave->leave_days = $startDate->diffInDays($endDate) + 1;
+            } 
+            // If neither single nor multi-day information is available, set leave_days to null
+            else {
+                $leave->leave_days = null;
+            }
+        }
+    
         return view('admin.pages.leave.index', compact('leaves'));
     }
+
 
 
     /**

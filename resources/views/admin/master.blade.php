@@ -1,6 +1,25 @@
 @extends('admin.master.main')
 
 @section('content')
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                position: 'bottom-end',
+                icon: 'success',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                toast: true,
+                background: '#28a745',
+                customClass: {
+                    popup: 'small-swal-popup'
+                }
+            });
+        });
+    </script>
+@endif
+
 <div class="container">
     <div class="row">
         @if(Auth::user()->role == 'admin')
@@ -23,7 +42,7 @@
                     <div class="card-body d-flex flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between align-items-center mb-2">
                             <h5 class="card-title mb-0">Total Salary</h5>
-                            <i class="fas fa-dollar-sign fa-2x"></i>
+                            <i class="fas fa-pound-sign fa-2x"></i>
                         </div>
                         <p class="card-text mb-0">{{ number_format($totalSalary, 2) }}</p>
                     </div>
@@ -43,7 +62,7 @@
             </div>
 
             <!-- Late Employees List -->
-            <div class="col-md-6 mb-4">
+            <!-- <div class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <h3>Employees Who Clocked In After 10:30 AM Today</h3>
@@ -56,7 +75,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> -->
         @else
             <!-- User Dashboard -->
             <div class="col-md-12 mb-4">
@@ -101,6 +120,29 @@
         @endforeach
     </div>
 @endif
+
+        <!-- Document Anouncement -->
+
+        @if($announcementdocuments->count() > 0)
+    <div class="row">
+        <h1>Recent Document Announcements</h1>
+        @foreach($announcementdocuments as $announcement)
+            <div class="col-md-4 mb-4"> <!-- Adjust column size as needed -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $announcement->title }}</h5>
+                        <form action="{{ route('announcementdocument.updateStatus', $announcement->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="button" class="btn btn-success" onclick="confirmStatusUpdate('{{ $announcement->id }}')">Mark as Read</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+@endif
+
+
         @endif
 
     </div>
@@ -108,6 +150,8 @@
 
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         @if(Auth::user()->role == 'admin')
@@ -197,5 +241,25 @@
             }
         });
     });
+</script>
+
+<script>
+    function confirmStatusUpdate(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will mark the announcement as read!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, mark it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form if confirmed
+                const form = document.querySelector(`form[action*='${id}']`);
+                form.submit();
+            }
+        });
+    }
 </script>
 @endsection

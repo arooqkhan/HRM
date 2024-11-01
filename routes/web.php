@@ -4,10 +4,13 @@ use App\Models\Leave;
 use App\Models\Expense;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RotaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ExpenseController;
@@ -20,7 +23,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\PayslipUploadController;
-use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AccouncementDocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,10 +62,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
 
+    Route::resource('accouncementdocument',AccouncementDocumentController::class);
+    Route::post('/announcementdocument/status/{id}', [AccouncementDocumentController::class, 'updateStatus'])->name('announcementdocument.updateStatus');
+
     Route::resource('leave', LeaveController::class);
     Route::resource('attendance', AttendanceController::class);
 
     Route::resource('payroll', PayRollController::class);
+    Route::get('showMonth', [PayrollController::class, 'showMonth'])->name('payroll.showMonth');
+
 
     
     Route::resource('payslip', PaySlipController::class)->except(['show']);
@@ -90,12 +98,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
     Route::resource('announcements', AnnouncementController::class);
-
-   
     Route::get('announcementupdate/{id}', [HomeController::class, 'show'])->name('announcements.details');
 
+    Route::patch('accouncementdocument/{id}/update-status', [AccouncementDocumentController::class, 'updateStatusdone'])->name('accouncementdocument.updateStatus');
 
 
+    Route::resource('shift',ShiftController::class);
+
+    Route::post('/shifts/{id}/accept', [ShiftController::class, 'acceptShift'])->name('shift.accept');
+    Route::post('/shifts/{id}/reject', [ShiftController::class, 'rejectShift'])->name('shift.reject');
+
+    
+
+    Route::resource('rota',RotaController::class);
 
    
 
@@ -108,14 +123,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //Route::get('attendance/details/{employee_id}/weekly', [AttendanceController::class, 'weeklyDetails'])->name('attendance.details.weekly');
     Route::get('attendance/details/{employee_id}/monthly', [AttendanceController::class, 'monthlyDetails'])->name('attendance.details.monthly');
 
-    Route::get('attendance/details/{employee_id}/previous-month/{monthOffset}', [AttendanceController::class, 'showPreviousMonths'])->name('attendance.details.previous_month');
-
+    Route::get('attendance/details/{employee_id}/monthly', [AttendanceController::class, 'attendanceDetailsMonthly'])
+    ->name('attendance.details.monthly');
 
     
   
 
     // Payroll download route
-    Route::get('payroll/{id}/download', [PayRollController::class, 'download'])->name('payroll.download');
+   
+
+    Route::get('payroll/download/{id}/{month}/{year}', [PayRollController::class, 'download'])->name('payroll.download');
+
 
     // Contacts route
     Route::get('contacts', [ContactController::class, 'index'])->name('contacts');

@@ -59,7 +59,7 @@
         text-align: right;
     }
 
-  
+
 
     .btn-primary:hover {
         background-color: #0056b3;
@@ -110,61 +110,65 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Employee</th>
-                        <th>Name</th>
+                        <th>Employee Name</th>
+                        <th>Document Title</th>
                         <th>Document</th>
                         <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-    @foreach($documents as $document)
-    <tr>
-        <td>{{ $document->id }}</td>
-        <td>
-            @if($document->employee_first_name && $document->employee_last_name)
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset($document->employee_image) }}" alt="{{ $document->employee_first_name }} {{ $document->employee_last_name }}" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-                    {{ $document->employee_first_name }} {{ $document->employee_last_name }}
-                </div>
-            @else
-                No employee
-            @endif
-        </td>
-        <td>{{ $document->name }}</td>
-        <td>
-            <a href="{{ asset($document->document) }}" target="_blank" rel="noopener noreferrer">
-                <i class="fa fa-file-alt"></i> {{ $document->name }}
-            </a>
-        </td>
-        <td class="text-center">
-            @if($document->status == 0)
-                <button class="btn btn-success btn-sm" onclick="updateStatus({{ $document->id }}, 1)">Accept</button>
-                <button class="btn btn-danger btn-sm" onclick="updateStatus({{ $document->id }}, 2)">Reject</button>
-            @elseif($document->status == 1)
-                <span class="badge badge-success">Accepted</span>
-            @elseif($document->status == 2)
-                <span class="badge badge-danger">Rejected</span>
-            @endif
-        </td>
-        <td class="text-center">
-            <a href="{{ route('document.edit', $document->id) }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-edit"></i>
-            </a>
-            <button href="javascript:void(0);" class="btn btn-info btn-sm" onclick="viewDocument('{{ $document->name }}', '{{ asset($document->document) }}')">
-                <i class="fas fa-eye"></i>
-        </button>
-            <form action="{{ route('document.destroy', $document->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to remove this document?')">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</tbody>
+                    @foreach($documents as $document)
+                    <tr>
+                        <td >{{ $document->id }}</td>
+                        <td>
+                            <span>
+                                @if($document->employee->image)
+                                <img src="{{ asset($document->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                                @else
+                                <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                                @endif
+                            </span>
+                            {{ $document->employee->first_name }} {{ $document->employee->last_name }}
+                        </td>
+                        <td>{{ $document->name }}</td>
+                        <td>
+                            <a href="{{ asset($document->document) }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-file-alt"></i> {{ $document->name }}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            @if($document->status == 0)
+                            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR')
+                            <button class="btn btn-success btn-sm" onclick="updateStatus({{ $document->id }}, 1)">Accept</button>
+                            <button class="btn btn-danger btn-sm" onclick="updateStatus({{ $document->id }}, 2)">Reject</button>
+                            @else
+                            <span class="badge badge-warning">Pending</span>
+                            @endif
+                            @elseif($document->status == 1)
+                            <span class="badge badge-success">Accepted</span>
+                            @elseif($document->status == 2)
+                            <span class="badge badge-danger">Rejected</span>
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ route('document.edit', $document->id) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button href="javascript:void(0);" class="btn btn-info btn-sm" onclick="viewDocument('{{ $document->name }}', '{{ asset($document->document) }}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <form action="{{ route('document.destroy', $document->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to remove this document?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -204,7 +208,7 @@
                     status: status
                 },
                 success: function(response) {
-                    if(response.success) {
+                    if (response.success) {
                         location.reload(); // Reload the page to reflect the status update
                     } else {
                         alert('Failed to update the status.');
@@ -222,7 +226,6 @@
 
 
 <script>
-    
     function viewDocument(name, url) {
         document.getElementById('documentName').textContent = name;
         document.getElementById('documentFile').src = url;

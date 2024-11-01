@@ -13,42 +13,59 @@
                 </div>
             </div>
             <div class="widget-content widget-content-area">
-            <form action="{{ route('document.store') }}" method="POST" id="expenseForm" enctype="multipart/form-data">
-    @csrf
+                <form action="{{ route('document.store') }}" method="POST" id="expenseForm" enctype="multipart/form-data">
+                    @csrf
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="inputName">Name</label>
-                <input type="text" class="form-control" id="inputName" name="name" placeholder="Document Name" value="{{ old('name') }}" required>
-            </div>
-        </div>
-    </div>
+                    <!-- Employee Dropdown -->
+                    @if (auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmployee">Select Employee</label>
+                                    <select class="form-control" id="inputEmployee" name="employee_id" required>
+                                        <option value="" disabled selected>Select an Employee</option>
+                                        @foreach ($employees as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->first_name }} {{$employee->last_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="inputDocument">Document:</label>
-                <input type="file" class="form-control" id="inputDocument" name="document" accept=".pdf,.doc,.docx,.xls,.xlsx" required>
-                <div id="documentPreview" class="mt-2">
-                    <!-- Document preview will be shown here -->
-                </div>
-            </div>
-        </div>
-    </div>
+                    <!-- Document Name Input -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="inputName">Document Name</label>
+                                <input type="text" class="form-control" id="inputName" name="name" placeholder="Document Name" value="{{ old('name') }}" required>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="row">
-        <div class="col-sm-12 mt-2">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-        </div>
-    </div>
-</form>
+                    <!-- Document Upload -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="inputDocument">Document file:</label>
+                                <input type="file" class="form-control" id="inputDocument" name="document" accept=".pdf,.doc,.docx,.xls,.xlsx" required>
+                                <div id="documentPreview" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit and Back Buttons -->
+                    <div class="row">
+                        <div class="col-sm-12 mt-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     document.getElementById('inputDocument').addEventListener('change', function(event) {
@@ -77,7 +94,5 @@
         }
     });
 </script>
-
-
 
 @endsection

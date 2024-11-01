@@ -72,19 +72,16 @@
         @foreach($payrolls as $payroll)
     <tr>     
         <td>{{$payroll->id}}</td>   
-    <td>
-    @if($payroll->employee)
-    <img src="{{ $payroll->employee->image }}" alt="{{ $payroll->employee->first_name }} {{ $payroll->employee->last_name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-@else
-    <img src="path/to/default/image.jpg" alt="Default Image" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-@endif
-            @if($payroll->employee)
-    {{ $payroll->employee->first_name }} {{ $payroll->employee->last_name }}
-@else
-    No employee assigned
-@endif
-
-        </td>
+        <td>
+                <span>
+                    @if($payroll->employee->image)
+                    <img src="{{ asset($payroll->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @else
+                    <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    @endif
+                </span>
+                {{ $payroll->employee->first_name }} {{ $payroll->employee->last_name }}
+            </td>
         <td>{{$payroll->salary}}</td>
         <td>{{$payroll->bonus}}</td>
         <td>{{$payroll->deduction}}</td>

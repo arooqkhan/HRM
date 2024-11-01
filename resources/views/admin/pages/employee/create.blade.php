@@ -199,6 +199,25 @@
         </div>
     </div>
 
+
+    <div class="row mb-4">
+        <div class="col-sm-6">
+            <label for="inputVisa">Visa Status</label>
+            <input type="text" class="form-control" id="inputVisa" name="visa" placeholder="Enter Visa Status" value="{{ old('visa') }}">
+            @if ($errors->has('visa'))
+            <span class="text-danger">{{ $errors->first('visa') }}</span>
+            @endif
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <label for="inputVisaDate">Next Right To Check Date</label>
+        <input type="date" class="form-control" id="inputVisaDate" name="visadate" value="{{ old('visadate') }}">
+        @if ($errors->has('visadate'))
+        <span class="text-danger">{{ $errors->first('visadate') }}</span>
+        @endif
+    </div>
+
+
     <div class="row mb-4">
         <div class="col-sm-12">
             <label for="inputAddress">Address</label>

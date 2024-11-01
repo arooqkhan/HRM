@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\AccouncementDocument;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -335,6 +336,12 @@ public function dashboard()
     //Get latest five Announcement
     $announcements = Announcement::latest()->take(5)->where('status',0)->get();
 
+    $announcementdocuments = AccouncementDocument::where('employee_id', auth()->id())
+    ->oRwhere('status', 0)
+    ->latest() 
+    ->take(5) 
+    ->get();
+
     // Return data to the view
     return view('admin.master', compact(
         'totalEmployees', 
@@ -347,7 +354,8 @@ public function dashboard()
         'lateEmployees',
         'presentEmployees',
         'absentEmployees',
-        'announcements' // Pass announcements to the view
+        'announcements',
+        'announcementdocuments'
     ));
 
     

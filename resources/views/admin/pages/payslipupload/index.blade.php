@@ -58,9 +58,9 @@
       
             <div class="d-flex justify-content-end m-2 p-2">
                 <a href="{{ route('payslipupload.create') }}" class="btn btn-success m-2">Upload PDF</a>
-                
+                @can('unassignPage payslipupload')
                 <a href="{{ route('payslipupload.unassignPage') }}" class="btn btn-warning m-2">View Unassigned Employees</a>
-                
+                @endcan
             </div>
             <h4>Assigned Employees</h4>
             <table id="style-2" class="table style-2 dt-table-hover">

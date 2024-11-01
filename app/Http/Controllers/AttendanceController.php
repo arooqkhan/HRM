@@ -171,6 +171,28 @@ public function showPreviousMonths($employee_id, $monthOffset = 1)
 }
 
 
+public function attendanceDetailsMonthly(Request $request, $employee_id)
+{
+    // Get the month and year from the request or default to the current month and year
+    $month = $request->get('month', date('n')); // Current month
+    $year = $request->get('year', date('Y')); // Current year
+
+    // Fetch attendance records for the specified employee, month, and year
+    $attendances = Attendance::where('employee_id', $employee_id)
+        ->whereYear('clock_in_date', $year)
+        ->whereMonth('clock_in_date', $month)
+        ->get();
+
+    // Get employee details
+    $employee = Employee::findOrFail($employee_id);
+    // Format month name
+    $monthName = Carbon::create()->month($month)->format('F');
+
+    // Return the view with attendance records
+    return view('admin.pages.attendance.show', compact('attendances', 'employee', 'monthName'));
+}
+
+
 
 
 

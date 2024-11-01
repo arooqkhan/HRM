@@ -9,15 +9,15 @@
 .menu a:active {
     text-decoration: none; /* Ensure underline doesn't appear on hover or focus */
 }
+
+
 </style>
 
 
 
 
 <div class="sidebar-wrapper sidebar-theme">
-
     <nav id="sidebar">
-
         <div class="navbar-nav theme-brand flex-row text-center">
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
@@ -106,6 +106,20 @@
                 </a>
             </li>
 
+
+            <li class="menu">
+                <a href="{{ route('accouncementdocument.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <!-- Replace the existing SVG with an Announcement Document SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+                            <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span>Request Document</span>
+                    </div>
+                </a>
+            </li>
+
             <li class="menu">
                 <a href="{{route('leave.index')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
@@ -160,7 +174,7 @@
                     </div>
                 </a>
             </li>
-
+            @endif
             <li class="menu">
                 <a href="{{route('payslipupload.index')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
@@ -174,7 +188,37 @@
                 </a>
             </li>
 
+            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR')
+            <li class="menu">
+    <a href="{{ route('shift.index') }}" aria-expanded="false" class="dropdown-toggle">
+        <div class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="6" x2="12" y2="12"></line>
+                <line x1="12" y1="12" x2="16" y2="10"></line>
+            </svg>
+            <span>Shift</span> 
+        </div>
+    </a>
+</li>
+@endif
 
+<li class="menu">
+    <a href="{{route('rota.index')}}" aria-expanded="false" class="dropdown-toggle">
+        <div class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Rota</span> 
+        </div>
+    </a>
+</li>
+
+
+            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR')
             <li class="menu">
                 <a href="{{ route('expenses.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
