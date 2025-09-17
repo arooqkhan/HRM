@@ -2,9 +2,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
+            <h3 class="">Edit Employee</h3>
             <div class="card">
-                <div class="card-header">Edit Employee</div>
 
                 <div class="card-body">
                     @if(session('success'))
@@ -99,14 +99,14 @@
                         </div>
 
                         <div class="row mb-4">
-        <div class="col-sm-6">
-            <label for="inputEmergencyNumber">Emergency Number</label>
-            <input type="text" class="form-control" id="inputEmergencyNumber" name="emgr_number" value="{{ old('emgr_number', $employee->emgr_number) }}">
-            @if ($errors->has('emgr_number'))
-            <span class="text-danger">{{ $errors->first('emgr_number') }}</span>
-            @endif
-        </div>
-    </div>
+                            <div class="col-sm-6">
+                                <label for="inputEmergencyNumber">Emergency Number</label>
+                                <input type="text" class="form-control" id="inputEmergencyNumber" name="emgr_number" value="{{ old('emgr_number', $employee->emgr_number) }}">
+                                @if ($errors->has('emgr_number'))
+                                <span class="text-danger">{{ $errors->first('emgr_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
 
 
                         <div class="row mb-4">
@@ -198,21 +198,21 @@
 
 
                         <div class="row mb-4">
-        <div class="col-sm-6">
-            <label for="inputVisa">Visa Status</label>
-            <input type="text" class="form-control" id="inputVisa" name="visa" placeholder="Enter Visa Status" value="{{ old('visa', $employee->visa) }}">
-            @if ($errors->has('visa'))
-            <span class="text-danger">{{ $errors->first('visa') }}</span>
-            @endif
-        </div>
-        <div class="col-sm-6">
-            <label for="inputVisaDate">Next Right To Check Date</label>
-            <input type="date" class="form-control" id="inputVisaDate" name="visadate" value="{{ old('visadate', $employee->visadate) }}">
-            @if ($errors->has('visadate'))
-            <span class="text-danger">{{ $errors->first('visadate') }}</span>
-            @endif
-        </div>
-    </div>
+                            <div class="col-sm-6">
+                                <label for="inputVisa">Visa Status</label>
+                                <input type="text" class="form-control" id="inputVisa" name="visa" placeholder="Enter Visa Status" value="{{ old('visa', $employee->visa) }}">
+                                @if ($errors->has('visa'))
+                                <span class="text-danger">{{ $errors->first('visa') }}</span>
+                                @endif
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="inputVisaDate">Next Right To Check Date</label>
+                                <input type="date" class="form-control" id="inputVisaDate" name="visadate" value="{{ old('visadate', $employee->visadate) }}">
+                                @if ($errors->has('visadate'))
+                                <span class="text-danger">{{ $errors->first('visadate') }}</span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="row mb-4">
                             <div class="col-sm-12">

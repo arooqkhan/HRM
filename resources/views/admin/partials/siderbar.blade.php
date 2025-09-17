@@ -1,42 +1,39 @@
 <style>
     .menu a {
-    text-decoration: none; /* Remove default underline */
-}
+        text-decoration: none;
+        /* Remove default underline */
+    }
 
-/* Optional: Remove text decoration on hover or active state */
-.menu a:hover,
-.menu a:focus,
-.menu a:active {
-    text-decoration: none; /* Ensure underline doesn't appear on hover or focus */
-}
-
-
+    /* Optional: Remove text decoration on hover or active state */
+    .menu a:hover,
+    .menu a:focus,
+    .menu a:active {
+        text-decoration: none;
+        /* Ensure underline doesn't appear on hover or focus */
+    }
 </style>
 
 
 
 
-<div class="sidebar-wrapper sidebar-theme">
+<div class="sidebar-wrapper sidebar-theme" style="width: 268px;">
     <nav id="sidebar">
-        <div class="navbar-nav theme-brand flex-row text-center">
+        <div class="navbar-nav">
             <div class="nav-logo">
-                <div class="nav-item theme-logo">
-                    <a href="{{route('dashboard')}}">
-                        <img src="{{asset('images/naxas.png')}}" alt="logo">
+                <div class="nav-item theme-logo" style="width: 100%; text-align: center;">
+                    <a href="{{ route('dashboard') }}">
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="logo" style="max-width: 90%; height: auto;">
                     </a>
                 </div>
-                <div class="nav-item theme-text">
-                    <a href="{{route('dashboard')}}" class="nav-link"> Naxas </a>
-                </div>
             </div>
-            <div class="nav-item sidebar-toggle">
+            <!-- <div class="nav-item sidebar-toggle">
                 <div class="btn-toggle sidebarCollapse">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left">
                         <polyline points="11 17 6 12 11 7"></polyline>
                         <polyline points="18 17 13 12 18 7"></polyline>
                     </svg>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="profile-info">
             <div class="user-info">
@@ -79,24 +76,24 @@
 
 
             <li class="menu">
-    <a href="{{ route('employee.index') }}" aria-expanded="false" class="dropdown-toggle">
-        <div class="">
-            <!-- Replace the existing SVG with a custom SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <!-- Conditional logic for displaying "Employee" or "Profile" -->
-            <span>
-                @if (in_array(auth()->user()->role, ['admin', 'HR', 'Accountant']))
-                    Employee
-                @else
-                    Profile
-                @endif
-            </span>
-        </div>
-    </a>
-</li>
+                <a href="{{ route('employee.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <!-- Replace the existing SVG with a custom SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <!-- Conditional logic for displaying "Employee" or "Profile" -->
+                        <span>
+                            @if (in_array(auth()->user()->role, ['admin', 'HR', 'Accountant']))
+                            Employee
+                            @else
+                            Profile
+                            @endif
+                        </span>
+                    </div>
+                </a>
+            </li>
 
             <li class="menu">
                 <a href="{{ route('document.index') }}" aria-expanded="false" class="dropdown-toggle">
@@ -114,7 +111,7 @@
             </li>
 
 
-           <!-- <li class="menu">
+            <!-- <li class="menu">
               <a href="{{ route('accouncementdocument.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
@@ -197,31 +194,31 @@
             @endif
 
             <li class="menu">
-    <a href="{{ route('shift.index') }}" aria-expanded="false" class="dropdown-toggle">
-        <div class="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="6" x2="12" y2="12"></line>
-                <line x1="12" y1="12" x2="16" y2="10"></line>
-            </svg>
-            <span>Shift</span> 
-        </div>
-    </a>
-</li>
+                <a href="{{ route('shift.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="6" x2="12" y2="12"></line>
+                            <line x1="12" y1="12" x2="16" y2="10"></line>
+                        </svg>
+                        <span>Shift</span>
+                    </div>
+                </a>
+            </li>
 
-<li class="menu">
-    <a href="{{route('rota.index')}}" aria-expanded="false" class="dropdown-toggle">
-        <div class="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            <span>Rota</span> 
-        </div>
-    </a>
-</li>
+            <li class="menu">
+                <a href="{{route('rota.index')}}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>Rota</span>
+                    </div>
+                </a>
+            </li>
 
 
             @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR')

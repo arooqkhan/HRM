@@ -79,9 +79,9 @@
     <div class="row">
     <div class="col-12 mb-4">
     <div class="card shadow-lg">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-muted text-white d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Employee Shifts for This Week</h3>
-            <i class="fas fa-clock fa-2x"></i>
+          
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -131,7 +131,7 @@
             <!-- Attendance Chart -->
             <div class="col-md-6 mb-4">
     <div class="card shadow-sm border-0">
-        <div class="card-header bg-success text-white text-center">
+        <div class="card-header bg-muted text-white text-center">
             <h4>Absent and Present Employee</h4>
         </div>
         <div class="card-body text-center">
@@ -147,7 +147,7 @@
 
 <div class="col-md-6 mb-4">
     <div class="card shadow-sm border-0">
-        <div class="card-header bg-success text-white text-center">
+        <div class="card-header bg-muted text-white text-center">
             <h4>Near Next Right to Check Date Employees</h4>
         </div>
         <div class="card-body">
