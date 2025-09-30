@@ -2,7 +2,7 @@
 
 @section('content')
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <style>
     /* Modal Custom Styles */
@@ -60,9 +60,9 @@
         <div class="widget-content widget-content-area">
            
             @can('create announcementsdocument')
-            <a href="{{ route('accouncementdocument.create') }}" class="btn btn-success m-2">Add Request Document</a>
+            <a href="{{ route('accouncementdocument.create') }}" class="btn btn-secondary m-2">Add Request Document</a>
             @endcan
-            <a href="javascript:void(0)" onclick="history.back()" class="btn btn-success">Back</a>
+            <a href="javascript:void(0)" onclick="history.back()" class="btn btn-secondary">Back</a>
 
             <!-- Filter Section -->
             @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
@@ -73,7 +73,7 @@
                     <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                     @endforeach
                 </select>
-                <input type="text" id="nameFilter" placeholder="Search by Name" class="form-control" style="padding: 12px;">
+                <input type="text" id="nameFilter" placeholder="Search by Name" class="form-control">
                 <input type="radio" id="uploadedFilter" name="statusFilter">
                 <label for="uploadedFilter">Show Uploaded</label>
                 <input type="radio" id="pendingFilter" name="statusFilter">

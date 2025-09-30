@@ -125,7 +125,7 @@
             <div class="d-flex justify-content-end mb-2">
             </div>
             @can('create announcements')
-            <a href="{{ route('announcements.create') }}" class="btn btn-success m-2">Add Announcement</a>
+            <a href="{{ route('announcements.create') }}" class="btn btn-secondary m-2">Add Announcement</a>
             @endcan
             <table id="style-2" class="table style-2 dt-table-hover">
                 <thead>
@@ -142,13 +142,16 @@
                     <tr>
                         <td>{{ $announcement->id }}</td>
                         <td>{{ $announcement->title }}</td>
-                        <td>{{ Str::limit($announcement->message, 20) }}{{ strlen($announcement->message) > 20 ? '...' : '' }}</td>
+                      <td>
+    <span data-toggle="tooltip" 
+          data-placement="top" 
+          title="{{ $announcement->message }}">
+        {{ Str::limit($announcement->message, 20) }}{{ strlen($announcement->message) > 20 ? '...' : '' }}
+    </span>
+</td>
                         <td>{{ \Carbon\Carbon::parse($announcement->date)->format('Y-m-d') }}</td>
                         <td class="text-center">
-                            <!-- View Button -->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#announcementModal-{{ $announcement->id }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                          
 
                             <!-- Edit Button -->
 
@@ -171,31 +174,17 @@
                         </td>
                     </tr>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="announcementModal-{{ $announcement->id }}" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel-{{ $announcement->id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary">
-                                    <h5 class="modal-title" id="announcementModalLabel-{{ $announcement->id }}">{{ $announcement->title }}</h5>
-                                    <button type="button" class="btn btn-light close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($announcement->date)->format('Y-m-d') }}</p>
-                                    <p>{{ $announcement->message }}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 @endsection

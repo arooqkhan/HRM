@@ -34,6 +34,7 @@ class Employee extends Model
         'visadate',
         'address',
         'documents',
+        'branch',
         'image',
     ];
 

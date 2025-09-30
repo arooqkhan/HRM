@@ -19,7 +19,7 @@
 </style>
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 
 <!-- jQuery (required by Bootstrap JS) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -36,7 +36,7 @@
     <div class="statbox widget box box-shadow">
         <div class="widget-content widget-content-area">
             <div class="text-right mb-3">
-                <a href="{{ route('payslipupload.index') }}" class="btn btn-success m-3" style="width: 80px;">Back</a>
+                <a href="{{ route('payslipupload.index') }}" class="btn btn-secondary m-3" style="width: 80px;">Back</a>
             </div>
            
             <table id="style-2" class="table style-2 dt-table-hover">
@@ -54,11 +54,11 @@
                         <td>{{ $employee->first_name }} {{ $employee->last_name }}</td>
                         <td>
                             <!-- Upload PDF button -->
-                            <a href="{{ route('payslipupload.create') }}" class="btn btn-primary">Upload PDF</a>
+                            <a href="{{ route('payslipupload.create') }}" class="btn btn-success">Upload PDF</a>
 
                             <!-- Unassign Document Button with Dropdown -->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     Unassign Document
                                 </button>
                                 <ul class="dropdown-menu">

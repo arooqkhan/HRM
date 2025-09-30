@@ -189,7 +189,7 @@ var App = function() {
                 if (parseObj.settings.layout.darkMode) {
 
                     var getObjectSettings = parseObj.settings.layout;
-
+              
                     var newParseObject = {...getObjectSettings, darkMode: false};
 
                     var newObject = { ...parseObj, settings: { layout: newParseObject }}

@@ -72,14 +72,14 @@
                                         </a>
 
                                         @can('update role')
-                                        <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">
-                                            Edit
-                                        </a>
+                                   <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">
+    <i class="fas fa-edit"></i> 
+</a>
                                         @endcan
 
                                         @can('delete role')
-                                        <a href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-danger mx-2">
-                                            Delete
+                                        <a href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
                                         </a>
                                         @endcan
                                     </td>
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-   
+
 </div>
 
 @endsection
