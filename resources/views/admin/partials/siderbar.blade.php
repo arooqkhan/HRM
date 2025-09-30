@@ -16,7 +16,7 @@
 
 
 
-<div class="sidebar-wrapper sidebar-theme" style="width: 268px;">
+<div class="sidebar-wrapper sidebar-theme" style="width: 260px;">
     <nav id="sidebar">
         <div class="navbar-nav">
             <div class="nav-logo">
@@ -36,7 +36,7 @@
             </div> -->
         </div>
         <div class="profile-info">
-            <div class="user-info">
+            <div class="user-info bg-secondary">
                 <div class="profile-img">
                     @if (Auth::user()->image)
                     <img src="{{ asset(Auth::user()->image) }}" alt="avatar">
@@ -46,9 +46,9 @@
                 </div>
                 <div class="profile-content">
                     @if(auth()->check())
-                    <h6 class="">{{ auth()->user()->name }}</h6>
+                    <h6 class="text-white">{{ auth()->user()->name }}</h6>
                     @endif
-                    <p class="">
+                    <p class="text-white">
                         @if (auth()->user()->role == 0)
                         HR
                         @else
@@ -152,7 +152,7 @@
                 </a>
             </li>
 
-            <li class="menu">
+            <!-- <li class="menu">
                 <a href="{{route('payroll.index')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign">
@@ -162,7 +162,7 @@
                         <span>PayRoll</span>
                     </div>
                 </a>
-            </li>
+            </li> -->
 
             <!-- @if(auth()->user()->role == 'admin' || auth()->user()->role == 'Accountant' || auth()->user()->role == 'HR')
             <li class="menu">
@@ -317,41 +317,6 @@
                 </a>
             </li>
 
-
-
-
-
-
-            <!-- <li class="menu">
-                <a href="#invoice" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign">
-                            <line x1="12" y1="1" x2="12" y2="23"></line>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                        <span>Logout</span>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </div>
-                </a>
-                <ul class="collapse submenu list-unstyled" id="invoice" data-bs-parent="#accordionExample">
-                    <li>
-                        <a href="./app-invoice-list.html"> List </a>
-                    </li>
-                    <li>
-                        <a href="./app-invoice-preview.html"> Preview </a>
-                    </li>
-                    <li>
-                        <a href="./app-invoice-add.html"> Add </a>
-                    </li>
-                    <li>
-                        <a href="./app-invoice-edit.html"> Edit </a>
-                    </li>
-                </ul>
-            </li> -->
 
 
 

@@ -83,7 +83,7 @@
                 <!-- Submit & Back -->
                 <div class="row mb-4">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-secondary">Submit</button>
                         <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
                     </div>
                 </div>

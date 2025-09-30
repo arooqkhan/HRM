@@ -119,7 +119,7 @@
             </div>
 
             <!-- Table with horizontal scrolling -->
-            <div class="table-responsive p-2">
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr class="table-header-height">

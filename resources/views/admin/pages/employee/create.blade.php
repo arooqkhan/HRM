@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <label>Gender</label><br>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required>
@@ -83,6 +83,20 @@
                         <span class="text-danger">{{ $errors->first('gender') }}</span>
                         @endif
                     </div>
+
+                    <div class="col-sm-6">
+                        <label for="inputBranch">Branch</label>
+                        <select class="form-control" id="inputBranch" name="branch" required>
+                            <option value="">Select Branch</option>
+                            <option value="branch 1" {{ old('branch') == 1 ? 'selected' : '' }}>Branch 1</option>
+                            <option value="branch 2" {{ old('branch') == 2 ? 'selected' : '' }}>Branch 2</option>
+                        </select>
+                        @if ($errors->has('branch'))
+                        <span class="text-danger">{{ $errors->first('branch') }}</span>
+                        @endif
+                    </div>
+
+
                 </div>
 
                 <div class="row mb-4">

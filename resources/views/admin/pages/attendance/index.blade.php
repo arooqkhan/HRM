@@ -56,7 +56,7 @@
         <div class="widget-content widget-content-area">
             
             @can('create attendance')
-            <a href="{{ route('attendance.create') }}" class="btn btn-success m-2">Add Attendance</a>
+            <a href="{{ route('attendance.create') }}" class="btn btn-secondary m-2">Add Attendance</a>
             @endcan
             <table id="style-2" class="table style-2 dt-table-hover">
                 <thead>

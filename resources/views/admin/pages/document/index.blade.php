@@ -1,8 +1,12 @@
 @extends('admin.master.main')
-
 @section('content')
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 <style>
     /* Modal Custom Styles */
@@ -62,7 +66,7 @@
 </style>
 
 <div class="col-lg-12">
-<h4 class="ml-2">Employees Document</h4>
+    <h4 class="ml-2">Employees Document</h4>
     <div class="statbox widget box box-shadow">
         @if(session('success'))
         <script>
@@ -70,7 +74,8 @@
                 Swal.fire({
                     position: 'bottom-end',
                     icon: 'success',
-                    title: '{{ session('success') }}',
+                    title: '{{ session('
+                    success ') }}',
                     showConfirmButton: false,
                     timer: 3000,
                     toast: true,
@@ -89,7 +94,8 @@
                 Swal.fire({
                     position: 'bottom-end',
                     icon: 'error',
-                    title: '{{ session('error') }}',
+                    title: '{{ session('
+                    error ') }}',
                     showConfirmButton: false,
                     timer: 3000,
                     toast: true,
@@ -102,33 +108,34 @@
         </script>
         @endif
         <div class="widget-content widget-content-area">
-            
-           
-                    <a href="{{ route('document.create') }}" class="btn btn-success m-2">Add Document</a>         
-                    <a href="{{ route('accouncementdocument.index') }}" class="btn btn-success m-2">Requested Document</a>
-                    
+
+
+            <a href="{{ route('document.create') }}" class="btn btn-secondary m-2">Add Document</a>
+            <a href="{{ route('accouncementdocument.index') }}" class="btn btn-secondary m-2">Requested Document</a>
+
 
 
             @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
-            <div class="row">
+            <div class="row mt-3 p-2">
                 <div class="col-4">
-            <select id="employeeSelect" class="form-control m-2" onchange="filterDocuments()">
+                    <select id="employeeSelect" class="form-control" onchange="filterDocuments()">
                         <option value="">Select Employee</option>
                         @foreach($employees as $employee)
-                            <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
+                        <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                         @endforeach
-            </select>
+                    </select>
 
-            </div>
-            
-                <div class="col-4 mt-2">
+                </div>
+
+                <div class="col-4">
                     <input type="text" id="searchTitleInput" class="form-control" placeholder="Search by Document Title" onkeyup="filterDocuments()">
                 </div>
-                <div class="col-4 mt-2">
-                    <input type="text" style="width: 356px;" id="searchNameInput" class="form-control" placeholder="Search by Employee Name" onkeyup="filterDocuments()">
+                
+                <div class="col-4">
+                    <input type="text"  id="searchNameInput" class="form-control" placeholder="Search by Employee Name" onkeyup="filterDocuments()">
                 </div>
             </div>
-            <div class="mt-3 ml-2">
+            <div class="m-3">
                 <label>Status:</label>
                 <div>
                     <input type="radio" name="status" value="" checked onclick="filterDocuments()"> All
@@ -154,29 +161,32 @@
                     <tr data-status="{{ $document->status }}" data-employee="{{ $document->employee_id }}">
                         <td>{{ $document->id }}</td>
                         <td>
-    <span>
-        @if($document->employee && $document->employee->image)
-            <img src="{{ asset($document->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
-        @else
-            <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
-        @endif
-    </span>
-    @if($document->employee && $document->employee->first_name && $document->employee->last_name)
-        {{ $document->employee->first_name }} {{ $document->employee->last_name }}
-    @else
-        No Employee
-    @endif
-</td>
+                            <span>
+                                @if($document->employee && $document->employee->image)
+                                <img src="{{ asset($document->employee->image) }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                                @else
+                                <img src="{{ asset('images/dummy.jpg') }}" class="rounded-circle profile-img" alt="Employee Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                                @endif
+                            </span>
+                            @if($document->employee && $document->employee->first_name && $document->employee->last_name)
+                            {{ $document->employee->first_name }} {{ $document->employee->last_name }}
+                            @else
+                            No Employee
+                            @endif
+                        </td>
                         <td>{{ $document->name }}</td>
                         <td>
                             <a href="{{ asset($document->document) }}" target="_blank" rel="noopener noreferrer">
                                 <i class="fa fa-file-alt"></i> {{ $document->name }}
                             </a>
+
+
+
                         </td>
                         <td class="text-center">
                             @if($document->status == 0)
                             @if(auth()->user()->role == 'admin' || auth()->user()->role == 'HR' || auth()->user()->role == 'Accountant')
-                           <button class="btn btn-success btn-sm" onclick="updateStatus({{ $document->id }}, 1)">Accept</button>
+                            <button class="btn btn-success btn-sm" onclick="updateStatus({{ $document->id }}, 1)">Accept</button>
                             <button class="btn btn-danger btn-sm" onclick="updateStatus({{ $document->id }}, 2)">Reject</button>
 
                             @else
@@ -185,9 +195,9 @@
                             @elseif($document->status == 1)
                             <span class="badge badge-success">Accepted</span>
                             @elseif($document->status == 2)
-                            
+
                             <a href="{{ route('documents.edits', ['title' => $document->name, 'id' => $document->employee->id, 'first_name' => $document->employee->first_name, 'last_name' => $document->employee->last_name,'docid' =>$document->id]) }}" class="btn btn-danger">Rejected/Upload</a>
-                            
+
                             @endif
                         </td>
                         <td class="text-center">
@@ -195,6 +205,7 @@
                             <a href="{{ route('document.edit', $document->id) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
+
                             @endcan
                             <!-- <button href="javascript:void(0);" class="btn btn-info btn-sm" onclick="viewDocument('{{ $document->name }}', '{{ asset($document->document) }}')">
                                 <i class="fas fa-eye"></i>
@@ -243,33 +254,33 @@
     }
 
     function updateStatus(documentId, status) {
-    fetch(`/document/${documentId}/update-status`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure you include the CSRF token
-        },
-        body: JSON.stringify({ status: status })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok.');
-    })
-    .then(data => {
-        // Optionally, you could update the status on the page here
-        // but since you want a page refresh, we'll skip that
+        fetch(`/document/${documentId}/update-status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure you include the CSRF token
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                // Optionally, you could update the status on the page here
+                // but since you want a page refresh, we'll skip that
 
-        // Reload the page to reflect the changes
-        location.reload();
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
-}
-
-
+                // Reload the page to reflect the changes
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
 </script>
 
 @endsection

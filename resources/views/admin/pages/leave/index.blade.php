@@ -23,8 +23,7 @@
                 Swal.fire({
                     position: 'bottom-end',
                     icon: 'success',
-                    title: '{{ session('
-                    success ') }}',
+                    title: '{{ session('success') }}',
                     showConfirmButton: false,
                     timer: 3000,
                     toast: true,
@@ -42,8 +41,7 @@
                 Swal.fire({
                     position: 'bottom-end',
                     icon: 'error',
-                    title: '{{ session('
-                    error ') }}',
+                    title: '{{ session('error') }}',
                     showConfirmButton: false,
                     timer: 3000,
                     toast: true,
@@ -57,7 +55,7 @@
         @endif
         <div class="widget-content widget-content-area">
 
-            <a href="{{ route('leave.create') }}" class="btn btn-success m-2">Apply Leave</a>
+            <a href="{{ route('leave.create') }}" class="btn btn-secondary m-2">Apply Leave</a>
             <table id="style-2" class="table style-2 dt-table-hover">
                 <thead>
                     <tr>
